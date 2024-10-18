@@ -1,0 +1,53 @@
+.container-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  overflow: auto;
+  align-items: center;
+  height: 100vh;
+}
+
+.input {
+  width: 40%;
+}
+
+.modal-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  overflow: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-dropzone {
+  /* width: 600px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 25px 0px;
+}
+
+.label-text {
+  font-size: 14px;
+  text-align: left;
+}
+
+.orText {
+  margin: 11px auto;
+  background: #d9d9d9;
+  width: 18px;
+  padding: 6px;
+  border-radius: 22px;
+  font-weight: 600;
+}
+
+.app-margin {
+  margin: 10px 39px;
+}

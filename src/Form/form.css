@@ -6,6 +6,8 @@
   overflow: auto;
   align-items: center;
   height: 100vh;
+  /* max-width: 750px; */
+  margin: auto;
 }
 
 .input {
@@ -49,5 +51,38 @@
 }
 
 .app-margin {
-  margin: 10px 39px;
+  margin: 5px 39px;
+  font-weight: 600;
+}
+
+.label-container {
+  text-align: left;
+}
+
+.deploy-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns child elements to the right */
+  align-items: flex-end; /* Aligns child elements to the bottom */
+  position: relative; /* Needed if you want to position the button absolutely within this container */
+  width: 100%;
+  top: 70px;
+  max-width: 700px;
+}
+
+.dropzone-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.app_icon_label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.required-icon {
+  color: #da3239;
+  font-weight: bold;
+  position: relative;
+  top: -3px;
+  left: -2px;
 }

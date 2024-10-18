@@ -8,7 +8,9 @@ const Form = () => {
   const [modalFile, setModalFile] = useState(null); // To store the file from the dropzone
   const [deployedUrl, setDeployedUrl] = useState(""); // To store the deployed URL from modal input
   const [modalOpen, setModalOpen] = useState(false); // To control modal visibility
+  const [appIconFile, setAppIconFile] = useState(null);
   const fileUploadRef = useRef(null);
+  const appIconUploadRef = useRef(null);
   const deployedUrlRef = useRef(null);
 
   useEffect(() => {
@@ -81,9 +83,10 @@ const Form = () => {
     console.log("Category:", category);
     console.log("Deployed URL:", deployedUrl);
     console.log("File from Dropzone:", modalFile?.name);
+    console.log("App Icon File:", appIconFile?.name);
   };
 
-  const isFormComplete = appTitle && appDescription && category;
+  const isFormComplete = appTitle && appDescription && category && appIconFile;
 
   const handleModalContinue = () => {
     // Get values from the deployedUrl input and file dropzone
@@ -98,6 +101,18 @@ const Form = () => {
     fileUploadRef.current.close();
   };
 
+  const handleAppIconUpload = () => {
+    appIconUploadRef.current.click();
+  };
+
+  const handleAppIconFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setAppIconFile(file);
+      console.log("App Icon File:", file.name);
+    }
+  };
+
   const isDeployEnabled =
     (deployedUrl && deployedUrl.trim() !== "") || modalFile !== null;
 
@@ -109,41 +124,61 @@ const Form = () => {
           id="appTitle"
           label="App Title"
           required
-          style={{ width: "40%" }}
+          style={{ width: "500px", textAlign: "left" }}
         ></modus-text-input>
         <modus-textarea-input
           id="appDescription"
           label="App Description"
           required
-          style={{ width: "40%" }}
+          style={{ width: "500px", textAlign: "left" }}
         ></modus-textarea-input>
+        <div className="app-icon" style={{ textAlign: "left", width: 500 }}>
+          <div style={{ margin: "5px 0px" }}>
+            <label className="app_icon_label">
+              App Icon <span className="required-icon">*</span>
+            </label>
+          </div>
+          <input
+            type="file"
+            ref={appIconUploadRef}
+            style={{ display: "none" }}
+            onChange={handleAppIconFileChange}
+          />
+          <modus-button right-icon="image" onClick={handleAppIconUpload}>
+            Upload Icon
+          </modus-button>
+          <span style={{ fontSize: 14, margin: "0px 15px" }}>
+            {appIconFile?.name}
+          </span>
+        </div>
         <modus-autocomplete
           id="categories"
           label="Categories"
-          style={{ width: "40%" }}
+          style={{ width: "500px", textAlign: "left" }}
+          multiple
         ></modus-autocomplete>
 
-        {deployedUrl}
         <modus-button id="uploadCodeButton" onClick={handleFileUpload}>
           Upload Code
         </modus-button>
 
-        <modus-button
-          id="deployButton"
-          color="danger"
-          disabled={!isFormComplete || !isDeployEnabled} // Update the condition
-          onClick={handleDeploy}
-        >
-          Deploy
-        </modus-button>
-
+        <div className="deploy-container">
+          <modus-button
+            id="deployButton"
+            color="danger"
+            disabled={!isFormComplete || !isDeployEnabled} // Update the condition
+            onClick={handleDeploy}
+          >
+            Deploy
+          </modus-button>
+        </div>
         <modus-modal
           header-text="App Info"
           open={modalOpen}
           ref={fileUploadRef}
         >
           <div>
-            <p className="label-text app-margin">Enter Deployed URL</p>
+            <p className="label-text app-margin">Enter Deployed URL <span className="required-icon">*</span></p>
             <div className="modal-textInput app-margin">
               <modus-text-input
                 id="deployedUrl"
@@ -151,17 +186,25 @@ const Form = () => {
               ></modus-text-input>
             </div>
             <div className="orText">Or</div>
-            <p className="label-text app-margin">Upload in Zip format</p>
-            <div className="modal-dropzone app-margin">
+            <p className="label-text app-margin">Upload in Zip format <span className="required-icon">*</span></p>
+            <div
+              className={`modal-dropzone app-margin ${
+                deployedUrl.length > 0 ? "dropzone-disabled" : ""
+              }`}
+            >
               <modus-file-dropzone
                 aria-label="dropzone"
                 dropzone-Height="175px"
                 dropzone-Width="500px"
                 multiple="false"
                 id="modalDropzone"
+                disabled
               ></modus-file-dropzone>
             </div>
-            <div style={{ textAlign: "right", marginTop:25 }} className="app-margin">
+            <div
+              style={{ textAlign: "right", marginTop: 25 }}
+              className="app-margin"
+            >
               <modus-button
                 id="cancelButton"
                 color="tertiary"
